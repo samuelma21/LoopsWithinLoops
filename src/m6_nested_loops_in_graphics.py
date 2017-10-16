@@ -3,15 +3,15 @@ This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of TWO-DIMENSIONAL GRAPHICS.
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Mary Ashley Samuelson.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 
 
 def main():
     """ Calls the other functions to demonstrate them. """
-    run_test_draw_L()
+    #run_test_draw_L()
     run_test_draw_wall_on_right()
 
 
@@ -80,9 +80,46 @@ def draw_L(window, circle, r, c):
     and m and n are small, positive integers.
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
+    diameter = circle.radius*2
+    orig_x = circle.center.x
+    orig_y = circle.center.y
+    x = orig_x
+    y = orig_y
+    circle.attach_to(window)
+    for _ in range(r):
+        for _ in range(3):
+            circ = rg.Circle(rg.Point(x, y), circle.radius)
+            circ.fill_color = circle.fill_color
+            circ.attach_to(window)
+            window.render(0.1)
+            x += diameter
+        y += diameter
+        x = orig_x
+    new_y = y
+    for _ in range(3):
+        for _ in range(3):
+            circ = rg.Circle(rg.Point(x, y), circle.radius)
+            circ.fill_color = circle.fill_color
+            circ.attach_to(window)
+            window.render(0.1)
+            x += diameter
+        y += diameter
+        x = orig_x
+    y = new_y
+    x = orig_x + diameter * 3
+    for _ in range(c):
+        for _ in range(3):
+            circ = rg.Circle(rg.Point(x, y), circle.radius)
+            circ.fill_color = circle.fill_color
+            circ.attach_to(window)
+            window.render(0.1)
+            y += diameter
+        x += diameter
+        y = new_y
+
 
 
 def run_test_draw_wall_on_right():
@@ -121,10 +158,32 @@ def draw_wall_on_right(rectangle, n, window):
     and n is a small, positive integer.
     """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
-
+    dx = rectangle.get_upper_right_corner().x - rectangle.get_upper_left_corner().x
+    dy = rectangle.get_upper_right_corner().y - rectangle.get_lower_right_corner().y
+    orig_x1 = rectangle.get_upper_left_corner().x
+    orig_x2 = rectangle.get_lower_right_corner().x
+    orig_y1 = rectangle.get_upper_left_corner().y
+    orig_y2 = rectangle.get_lower_right_corner().y
+    x1 = orig_x1
+    x2 = orig_x2
+    y1 = orig_y1
+    y2 = orig_y2
+    pt1 = rg.Point(x1, y1)
+    pt2 = rg.Point(x2, y2)
+    for j in range(n):
+        for k in range(j+1):
+            rect = rg.Rectangle(pt1, pt2)
+            rect.attach_to(window)
+            pt1.x -= dx
+            pt2.x -= dx
+        pt1.y -= dy
+        pt2.y -= dy
+        pt1.x = orig_x1
+        pt2.x = orig_x2
+    window.render()
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
